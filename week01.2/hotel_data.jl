@@ -92,9 +92,17 @@ for p in clean_df.country
     end
 end
 
+country_binary=string.(country_number, base=2, pad=8)
+
+df_temp = DataFrame()
+for i in 1:8
+    v = [parse(Int, j[i]) for j in country_binary]
+    df_temp[:, "C$i"] = v
+end
 
 
 # CREATE AND SAVE A NEW CLEAN DATA DataFrame
 final_df = DataFrame(is_canceled=sdis_canceled,adults=sdadults,stays_in_week_nights=sdstays_in_week_nights,
-arrival_date=hotel_data.arrival_date,country=country_number)
+arrival_date=hotel_data.arrival_date,country1=df_temp.C1,country2=df_temp.C2,country3=df_temp.C3,
+country4=df_temp.C4,country5=df_temp.C5,country6=df_temp.C6,country=df_temp.C7,country8=df_temp.C8)
 CSV.write("hotel_clean_data.csv", final_df)
