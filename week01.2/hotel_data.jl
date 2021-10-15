@@ -16,10 +16,10 @@ descript = describe(hotel_data)
 print(descript)
 
 # missing values?
-sum(ismissing(hotel_data))
+ismissing.(hotel_data)
 # There are no missing values in this dataset...
 
-# Mixed data formats?
+# Mixed date formats?
 names(hotel_data)
 hotel_data[!,:arrival_date_year]
 hotel_data[!,:arrival_date_month]
@@ -57,6 +57,7 @@ sdd = select(hotel_data,[:adults,:is_canceled,:stays_in_week_nights])
 
 sdf(x, m, s) = (x-m)/s
 
+using Statistics
 sdadults = sdf.(sdd.adults, mean(sdd.adults), std(sdd.adults))
 sdis_canceled = sdf.(sdd.is_canceled, mean(sdd.is_canceled), std(sdd.is_canceled))
 sdstays_in_week_nights = sdf.(sdd.stays_in_week_nights, mean(sdd.stays_in_week_nights), std(sdd.stays_in_week_nights))
@@ -76,9 +77,24 @@ unique(hotel_data.market_segment)
 unique(hotel_data.country)
 # no spelling errors
 
-
-# CREATE AND SAVE A NEW CLEAN DATA DataFrame
-
+# create new data frame
 clean_df = DataFrame(is_canceled=sdis_canceled,adults=sdadults,stays_in_week_nights=sdstays_in_week_nights,
 arrival_date=hotel_data.arrival_date,country=hotel_data.country)
-CSV.write("hotel_clean_data.csv", clean_df)
+
+# Convert country variable
+unique_countries = sort(unique(clean_df.country))
+country_number = []
+for p in clean_df.country
+    for i in 1:length(unique_countries)
+        if p == unique_countries[i]
+            append!(country_number,i)
+        end
+    end
+end
+
+
+
+# CREATE AND SAVE A NEW CLEAN DATA DataFrame
+final_df = DataFrame(is_canceled=sdis_canceled,adults=sdadults,stays_in_week_nights=sdstays_in_week_nights,
+arrival_date=hotel_data.arrival_date,country=country_number)
+CSV.write("hotel_clean_data.csv", final_df)
