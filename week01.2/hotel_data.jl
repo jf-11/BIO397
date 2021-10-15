@@ -81,4 +81,4 @@ unique(hotel_data.country)
 
 clean_df = DataFrame(is_canceled=sdis_canceled,adults=sdadults,stays_in_week_nights=sdstays_in_week_nights,
 arrival_date=hotel_data.arrival_date,country=hotel_data.country)
-CSV.write("clean_data.csv", clean_df)
+CSV.write("hotel_clean_data.csv", clean_df)
