@@ -36,6 +36,7 @@ stringinverter("hello")
 # 6. Write a function that checks whether a string is palindromic (the string is the same whether read from backward or forward).
 
 function palindromechecker(string)
+    string = lowercase(string)
     check = reverse(string)
     if check == string
         return "This is a palindrome"
@@ -216,7 +217,7 @@ x = Geometry.Point(1,2)
 xx = Geometry.Point(3,3)
 circ1 = Geometry.Circle2(x,5)
 circ2 = Geometry.Circle2(xx,1)
-area(circ1)
+Geometry.area(circ1)
 Geometry.overlapping(circ1,circ2)
 
 # 13. Use the following dataset, take a subset of it where the values of the first column are less than the mean of
@@ -254,7 +255,7 @@ describe(df)
 unique(df.Education)
 
 ux = unique(df.Education);
-new_df=transform(df, @. :Education => ByRow(isequal(ux)) .=> Symbol(:Education_, ux))
+new_df=transform(df,@. :Education => ByRow(isequal(ux)) .=> Symbol(:Education_, ux))
 new_df = select!(new_df, Not(:Education))
 
 # 16. Create scatter plots of age vs education and income vs education. Color the points according to sex.
