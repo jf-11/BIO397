@@ -20,9 +20,10 @@ y = trees[!, :Height];
 
 # Call the function
 
-include("/Users/Joel/Desktop/BIO397/ML.jl")
+include("/Users/Joel/Desktop/BIO397/ML/ML.jl")
 a = ML.linear_regression(x,y,0.001,10^6)[1]
 b = ML.linear_regression(x,y,0.001,10^6)[2]
+cost_change = ML.linear_regression(x,y,0.001,10^6)[3]
 
 ############################################################################
 

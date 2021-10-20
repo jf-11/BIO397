@@ -37,8 +37,9 @@ function linear_regression(X::Array,Y::Array,α::Number,iterations::Number)
     b = 0
     cost = []
     for i in 1:iterations
+        ncost = univariate_cost(X,Y,a,b)
         a, b = univariate_gradient(X,Y,a,b,α)
-        append!(cost,univariate_cost(X,Y,a,b))
+        push!(cost,ncost-univariate_cost(X,Y,a,b))
     end
     return a,b,cost
 end

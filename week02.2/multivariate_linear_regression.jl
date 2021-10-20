@@ -2,6 +2,7 @@
 # MULTIVARIATE LINEAR REGRESSION
 ############################################################################
 
+include("/Users/Joel/Desktop/BIO397/ML/ML.jl")
 using RDatasets
 trees = dataset("datasets", "trees");
 X = Matrix(trees[!, [:Girth,:Height]]);
