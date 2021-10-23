@@ -46,3 +46,8 @@ end
 
 ############################################################################
 
+function analytical_lin_reg(x,y)
+    a = sum((x .* y - mean(y).*x))/sum((x.^2 - mean(x).*x))
+    b = mean(y) - a * mean(x)
+    return a,b
+end

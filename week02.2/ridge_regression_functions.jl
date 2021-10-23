@@ -2,11 +2,6 @@
 # RIDGE REGRESSION FUNCTIONS
 ############################################################################
 
-using RDatasets
-trees = dataset("datasets", "trees");
-
-############################################################################
-
 function ridge_predict(X,A)
     pred = X*A
     return pred
@@ -14,30 +9,36 @@ end
 
 ############################################################################
 
-function ridge_gradient(X,Y,A,α::Number)
-    a_gradient = (1/size(X,1)) * ((X*A-Y)')*X
-    A_new = A*(1 - α * λ/n)
+function ridge_gradient(X,Y,A,α::Number,λ)
+    At = A
+    At[1] = 0
+    a_gradient = (1/size(X,1)) * (((X*A-Y)')*X .+ (λ/size(X,1).*At)')
+    A_new = A .- α * a_gradient'
     return A_new
 end
 
 ############################################################################
 
-function ridge_cost(X,Y,A)
-    pred = multivariate_predict.(X,A)
-    cost = (1/2*size(X,1)) * (pred-Y)^2
+function ridge_cost(X,Y,A,λ)
+    pred = ridge_predict(X,A)
+    cost = (1/2*size(X,1)) * (sum((pred.-Y).^2) + λ * sum(A.^2))
     return cost
 end
 
 ############################################################################
 
-function ridge_linear_regression(X,Y,α::Number,iterations::Number)
+function ridge_linear_regression(X,Y,α::Number,λ,iterations::Number)
     o = ones(size(X,1))
     X2 = hcat(o,X)
     A = zeros(size(X2,2))
+    λ = λ
+    cost = []
     for i in 1:iterations
-        A .= multivariate_gradient(X2,Y,A,α)
+        ncost = ridge_cost(X2,Y,A,λ)
+        A .= vec(ridge_gradient(X2,Y,A,α,λ))
+        push!(cost,ncost-ridge_cost(X2,Y,A,λ))
     end
-    return A
+    return A,cost
 end
 
 ############################################################################
