@@ -10,7 +10,9 @@ end
 ############################################################################
 
 function ridge_gradient(X,Y,A,α::Number,λ)
-    a_gradient = (1/size(X,1)) * ((X*A-Y)')*X .+ (λ/size(X,1).*A)'
+    At = deepcopy(A)
+    At[1] = 0
+    a_gradient = (1/size(X,1)) * (((X*A-Y)')*X .+ (λ/size(X,1).*At)')
     A_new = A .- α * a_gradient'
     return A_new
 end
@@ -19,7 +21,7 @@ end
 
 function ridge_cost(X,Y,A,λ)
     pred = ridge_predict(X,A)
-    cost = (1/2*size(X,1)) * sum((pred.-Y).^2) + λ * sum(A.^2)
+    cost = (1/2*size(X,1)) * (sum((pred.-Y).^2) + λ * sum(A.^2))
     return cost
 end
 

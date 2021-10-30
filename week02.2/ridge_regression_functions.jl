@@ -10,7 +10,7 @@ end
 ############################################################################
 
 function ridge_gradient(X,Y,A,α::Number,λ)
-    At = A
+    At = deepcopy(A)
     At[1] = 0
     a_gradient = (1/size(X,1)) * (((X*A-Y)')*X .+ (λ/size(X,1).*At)')
     A_new = A .- α * a_gradient'
