@@ -42,7 +42,7 @@ function KNN_classification(X_train, y_train; nsplits=5, scoring="f1", n_jobs=1,
 
   # build the model and grid search object
   model = KNeighborsClassifier()
-  parameters = Dict("n_neighbors" => 1:2:30, "weights" => ("uniform", "distance"))
+  parameters = Dict("n_neighbors" => 1:1:30, "weights" => ("uniform", "distance"))
   kf = StratifiedKFold(n_splits=nsplits, shuffle=true)
   gridsearch = GridSearchCV(model, parameters, scoring=scoring, cv=kf, n_jobs=n_jobs, verbose=0)
 

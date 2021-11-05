@@ -12,6 +12,6 @@ df = DataFrame(CSV.File("/Users/Joel/Desktop/BIO397/week03.4/creditcardfraud_nor
 # test the function
 using ML
 data = Matrix(df)
-outliers_index,outliers_encoding = ML.outlier_detecter(data,0.05)
+outliers_index,outliers_encoding = ML.outlier_detecter(data,0.001)
 
 ############################################################################
