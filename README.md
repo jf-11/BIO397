@@ -1,2 +1,2 @@
 # BIO397
-**BIO397**, *Applied Machine Learning*
+*Applied Machine Learning*
